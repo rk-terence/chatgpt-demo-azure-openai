@@ -5,13 +5,9 @@ import { generatePayload, parseOpenAIStream } from '@/utils/openAI'
 import { verifySignature } from '@/utils/auth'
 import type { APIRoute } from 'astro'
 
-const apiKey = import.meta.env.OPENAI_API_KEY
+const apiKey = import.meta.env.AZURE_OPENAI_API_KEY
 const httpsProxy = import.meta.env.HTTPS_PROXY
-<<<<<<< HEAD
-const baseUrl = ((import.meta.env.OPENAI_API_BASE_URL) || 'https://api.openai.com').trim().replace(/\/$/, '')
-=======
 const apiUrl = import.meta.env.AZURE_OPENAI_API_URL
->>>>>>> 851d527 (Now this app supports Azure OpenAI api keys and endpoints.)
 const sitePassword = import.meta.env.SITE_PASSWORD || ''
 const passList = sitePassword.split(',') || []
 
@@ -47,11 +43,7 @@ export const post: APIRoute = async(context) => {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-<<<<<<< HEAD
-  const response = await fetch(`${baseUrl}/v1/chat/completions`, initOptions).catch((err: Error) => {
-=======
   const response = await fetch(apiUrl, initOptions).catch((err: Error) => {
->>>>>>> 851d527 (Now this app supports Azure OpenAI api keys and endpoints.)
     console.error(err)
     return new Response(JSON.stringify({
       error: {

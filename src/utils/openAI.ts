@@ -7,11 +7,10 @@ export const model = import.meta.env.OPENAI_API_MODEL || 'gpt-3.5-turbo'
 export const generatePayload = (apiKey: string, messages: ChatMessage[]): RequestInit & { dispatcher?: any } => ({
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${apiKey}`,
+    'api-key': apiKey,
   },
   method: 'POST',
   body: JSON.stringify({
-    model,
     messages,
     temperature: 0.6,
     stream: true,
@@ -51,6 +50,11 @@ export const parseOpenAIStream = (rawResponse: Response) => {
             const text = json.choices[0].delta?.content || ''
             const queue = encoder.encode(text)
             controller.enqueue(queue)
+
+            if (json.choices[0].finish_reason === 'stop') {
+              controller.close()
+              return
+            }
           } catch (e) {
             controller.error(e)
           }
