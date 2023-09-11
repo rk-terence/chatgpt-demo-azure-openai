@@ -1,5 +1,5 @@
 ---
-import { model } from '../utils/openAI'
+import { models } from '@/utils/openAI';
 import Logo from './Logo.astro'
 import Themetoggle from './Themetoggle.astro'
 ---
@@ -13,5 +13,14 @@ import Themetoggle from './Themetoggle.astro'
     <span class="gpt-title">ChatGPT</span>
     <span class="gpt-subtitle">Demo</span>
   </div>
-  <p mt-1 op-60>Based on Azure OpenAI API ({model}).</p>
+  <p mt-1 op-60>
+    <label for="model-selector">选择模型：</label>
+    <select id="model-selector" class="font-bold">
+      {
+        Object.entries(models).map(([name, _]) => {
+          return <option value={name}>{name}</option>
+        })
+      }
+    </select>
+  </p>
 </header>

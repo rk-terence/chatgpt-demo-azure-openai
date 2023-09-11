@@ -105,6 +105,9 @@ export default () => {
             t: timestamp,
             m: requestMessageList?.[requestMessageList.length - 1]?.content || '',
           }),
+          model: (
+            document.getElementById('model-selector') as HTMLSelectElement
+          ).value
         }),
         signal: controller.signal,
       })
