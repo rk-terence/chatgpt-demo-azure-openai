@@ -83,7 +83,7 @@ const { title } = Astro.props;
   }
 </style>
 
-<script>
+<script is:inline>
 const initTheme = () => {
   const darkSchema
     = window.matchMedia
@@ -94,8 +94,12 @@ const initTheme = () => {
       'dark',
       storageTheme === 'dark',
     )
+    document.documentElement.style.colorScheme = 
+      storageTheme === 'dark' ? 'dark' : 'light';
   } else {
     document.documentElement.classList.toggle('dark', darkSchema)
+    document.documentElement.style.colorScheme = 
+      darkSchema ? 'dark' : 'light';
   }
 }
 
