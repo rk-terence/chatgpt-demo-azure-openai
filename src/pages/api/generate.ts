@@ -48,7 +48,7 @@ export const post: APIRoute = async(context) => {
   // #vercel-end
 
   const apiUrl = new URL(
-    `/openai/deployments/${modelId}/chat/completions?api-version=2023-05-15`, 
+    `/openai/deployments/${modelId}/chat/completions?api-version=2023-08-01-preview`, 
     endpoint
   );
   // @ts-expect-error
@@ -61,6 +61,5 @@ export const post: APIRoute = async(context) => {
       },
     }), { status: 500 })
   }) as Response
-
   return parseOpenAIStream(response) as Response
 }
