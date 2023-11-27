@@ -32,6 +32,7 @@ export const parseOpenAIStream = (rawResponse: Response) => {
       const streamParser = (event: ParsedEvent | ReconnectInterval) => {
         if (event.type === 'event') {
           const data = event.data
+          console.log(data)
           if (data === '[DONE]') {
             controller.close()
             return
@@ -47,17 +48,12 @@ export const parseOpenAIStream = (rawResponse: Response) => {
             //   ],
             // }
             const json = JSON.parse(data)
-            if (!json.choices.length) {
+            if (json.prompt_filter_results && !json.choices?.length) {
               return
             }
             const text = json.choices[0].delta?.content || ''
             const queue = encoder.encode(text)
             controller.enqueue(queue)
-
-            if (json.choices[0].finish_reason === 'stop') {
-              controller.close()
-              return
-            }
           } catch (e) {
             controller.error(e)
           }
